@@ -1576,7 +1576,7 @@ async def get_stats(
 
 @app.get("/", dependencies=[Depends(rate_limit_dependency)])
 async def root():
-    return RedirectResponse(url="https://uni-api-web.pages.dev", status_code=302)
+    return JSONResponse(content={"message": "API Service Running"}) # 返回简单消息
 
 # async def on_fetch(request, env):
 #     import asgi

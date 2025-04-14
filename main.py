@@ -412,6 +412,8 @@ async def update_stats(current_info):
                     try:
                         columns = [column.key for column in RequestStat.__table__.columns]
                         filtered_info = {k: v for k, v in current_info.items() if k in columns}
+                        log_info_without_text = {k: v for k, v in filtered_info.items() if k != 'text'}
+                        logger.info(f"Request Stats: {log_info_without_text}") # 打印统计信息到控制台 (排除 text 字段)
                         new_request_stat = RequestStat(**filtered_info)
                         session.add(new_request_stat)
                         await session.commit()
@@ -1598,7 +1600,7 @@ app.mount("/", StaticFiles(directory="./static", html=True), name="static")
 if __name__ == '__main__':
     import uvicorn
     import os
-    PORT = int(os.getenv("PORT", "8000"))
+    PORT = int(os.getenv("PORT", "8110"))
     uvicorn.run(
         "__main__:app",
         host="0.0.0.0",
